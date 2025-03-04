@@ -1,0 +1,24 @@
+body {
+    display: flex;
+}
+
+.navigation {
+    width: 10%;
+}
+
+.content {
+    width: 90%;
+}
+
+.dot {
+    height: 100px;
+    width: 100px;
+    background-color: #77DD77;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dot > p {
+    color: white;
+    text-align: center;
+}
