@@ -59,7 +59,7 @@ body {
 .header .title {
     width: calc(100% - 120px);
     background-color: #1fd472;
-    opacity: 0.8;
+    opacity: 1;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -90,7 +90,35 @@ body {
     background-color: #60dc9a;
     position: relative;
     isolation: isolate;
-    opacity: 0.8;
+    opacity: 1;
+}
+
+.main .nav a:hover {
+    background-color: #59c88d;
+    transition: background 0.3s;
+}
+
+.main .nav ul {
+    position: absolute;
+    list-style-type: none;
+
+    display: none;
+
+    /*box-shadow: 10px 0 25px rgba(0,0,0,0.25);*/
+
+    /*background-color: #59c88d;*/
+}
+
+.main .nav ul li {
+    padding: 8px;
+    width: 105px;
+    margin-left: 110px;
+    /*background-color: #59c88d;*/
+}
+
+.main .nav a:hover + ul,
+.main .nav ul:hover {
+    display: block;
 }
 
 .main .nav::before {
