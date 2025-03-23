@@ -1,0 +1,250 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: row;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+    user-select: none;
+}
+
+.nav {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 120px;
+    display: flex;
+    flex-direction: column;
+    background-image: url('forest-black-white.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 10;
+}
+
+.nav::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    z-index: -1;
+}
+
+.logo-container {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #a86ee5;
+    color: white;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: large;
+    border-radius: 50%;
+    text-align: center;
+    flex-shrink: 0;
+    padding: 15px;
+}
+
+.menu {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.links {
+    font-family: sans-serif;
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+    width: 100%;
+}
+
+.main-link {
+    text-decoration: none;
+    background-color: #54d691;
+    padding: 10px;
+    width: 100%;
+    color: white;
+    transition: background 1s;
+    margin-bottom: 2px;
+}
+
+.main-link:hover {
+    background-color: #4ec487;
+}
+
+.sublink {
+    text-decoration: none;
+    background-color: #5bed9f;
+    padding: 10px;
+    color: white;
+    display: block;
+    text-align: center;
+    transition: background 1s;
+    white-space: nowrap;
+    margin-bottom: 2px;
+}
+
+.sublink:hover {
+    background-color: #b5b5b5;
+}
+
+.links ul {
+    display: none;
+    list-style: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    padding: 0;
+    background-color: lightgray;
+}
+
+.links:hover ul {
+    display: flex;
+    flex-direction: column;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.header {
+    background-color: #54d691;
+    font-family: sans-serif;
+    color: white;
+    font-size: xx-large;
+    font-weight: bold;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    margin: 20px;
+}
+
+.articles {
+    width: 100%;
+    /*background-color: #a86ee5;*/
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.article {
+    margin-bottom: 15px;
+    font-family: sans-serif;
+}
+.article p {
+    padding: 10px;
+}
+
+.article .list {
+    padding: 10px;
+    margin-left: 5px;
+}
+
+.subtitle {
+    font-weight: bold;
+    font-size: larger;
+    border-bottom: 1px solid #a86ee5;
+    padding-bottom: 5px;
+}
+
+table {
+    margin-top: 30px;
+    width: 100%;
+    font-family: sans-serif;
+    border-collapse: collapse;
+    margin-bottom: 50px;
+}
+
+table th, td {
+    padding: 10px;
+}
+
+table th {
+    background-color: #b78ce4;
+    color: white;
+}
+
+table td {
+    border-bottom: 1px solid lightgray;
+}
+
+table tr:nth-child(odd) {
+    background-color: rgba(211, 211, 211, 0.6);
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 200px;
+}
+
+.buttons button {
+    background-color: #4ec487;
+    color: white;
+    font-family: sans-serif;
+    font-size: medium;
+    border: none;
+    padding: 13px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.footer {
+    background-color: #6a4396;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin: -20px;
+    padding: 5px 50px 5px 50px;
+    font-family: sans-serif;
+    font-size: medium;
+    color: white;
+}
+
+.footer p {
+    padding: 10px;
+}
+
+.footer .column {
+    color: #c196f3;
+    font-weight: bold;
+}
+
+.footer .copyright {
+    grid-column: span 3;
+    text-align: center;
+    border-top: 1px lightgray solid;
+}
