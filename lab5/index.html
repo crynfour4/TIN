@@ -41,6 +41,14 @@
         overflow-y: auto;
       }
     }
+
+    .card-animation {
+      transition: transform 0.3s ease;
+    }
+
+    .card-animation:hover {
+      transform: translateY(-5px);
+    }
   </style>
 </head>
 <body>
@@ -157,15 +165,309 @@
       <div>
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 mt-2">
           <h3>Panel Sterowania</h3>
-          <button type="button" class="btn btn-dark">Dodaj produkt</button>
+          <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addProduct">Dodaj produkt</button>
         </div>
-        <div class="alert alert-info" role="alert">
+        <div class="alert alert-info mb-5 shadow" role="alert">
           <i class="bi bi-info-circle-fill me-2"></i>
           Witaj w panelu administracyjnym! Masz <b>7 nowych zamówień</b> i <b>4 nieprzeczytane wiadomości</b>.
           <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       </div>
+
+    <!--   Statistics   -->
+      <div class="row mb-5">
+        <div class="col-md-3">
+          <div class="card card-animation h-100 shadow">
+            <div class="card-body">
+              <h5 class="card-title text-secondary">Całkowita sprzedaż</h5>
+              <span class="badge rounded-pill bg-primary float-end p-2">
+                <i class="bi bi-currency-dollar fs-4"></i>
+              </span>
+              <h2 class="card-text">58,400 zł</h2>
+              <p class="card-text text-success">
+                <i class="bi bi-arrow-up"></i>
+                12.5%
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card card-animation h-100 shadow">
+            <div class="card-body">
+              <h5 class="card-title text-secondary">Zamówienia</h5>
+              <span class="badge rounded-pill bg-warning float-end p-2">
+                <i class="bi bi-cart-fill fs-4"></i>
+              </span>
+              <h2 class="card-text">486</h2>
+              <p class="card-text text-success">
+                <i class="bi bi-arrow-up"></i>
+                8.2%
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card card-animation h-100 shadow">
+            <div class="card-body">
+              <h5 class="card-title text-secondary">Klienci</h5>
+              <span class="badge rounded-pill bg-success float-end p-2">
+                <i class="bi bi-people-fill fs-4"></i>
+              </span>
+              <h2 class="card-text">1,245</h2>
+              <p class="card-text text-success">
+                <i class="bi bi-arrow-up"></i>
+                5.3%
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card card-animation h-100 shadow">
+            <div class="card-body">
+              <h5 class="card-title text-secondary">Średni koszyk</h5>
+              <span class="badge rounded-pill bg-info float-end p-2">
+                <i class="bi bi-bag-fill fs-4"></i>
+              </span>
+              <h2 class="card-text">120 zł</h2>
+              <p class="card-text text-danger">
+                <i class="bi bi-arrow-down"></i>
+                2.1%
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--   Tabs   -->
+      <div>
+        <ul class="nav nav-tabs mb-4">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Przegląd</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Zamówienia</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Produkty</a>
+          </li>
+        </ul>
+      </div>
+
+      <!--   Table with products   -->
+      <div>
+        <div class="row border-bottom">
+          <div class="col-md-11 mb-2">
+            <h4>Ostatnie zamówienia</h4>
+          </div>
+          <div class="col-md-1 mb-2">
+            <div class="dropdown float-end">
+              <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Sortuj</button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Rosnąco (cena)</a></li>
+                <li><a class="dropdown-item" href="#">Malejąco (cena)</a></li>
+                <li><a class="dropdown-item" href="#">Nazwa</a></li>
+                <li><a class="dropdown-item" href="#">Data umieszczenia</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class=" table-responsive mt-4 mb-4">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#ID</th>
+                <th>Klient</th>
+                <th>Data</th>
+                <th>Status</th>
+                <th>Wartość</th>
+                <th>Akcje</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th class="align-middle">#ORD-7892</th>
+                <td class="align-middle">Denys Novikov</td>
+                <td class="align-middle">14 Dec 2024</td>
+                <td class="align-middle">
+                  <span class="badge text-bg-success">Zrealizowane</span>
+                </td>
+                <td class="align-middle">239.99 zł</td>
+                <td class="align-middle">
+                  <button type="button" class="btn btn-outline-primary mb-2 mb-md-0">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                  <button type="button" class="btn btn-outline-danger">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <th class="align-middle">#ORD-7891</th>
+                <td class="align-middle">Michał Hyla</td>
+                <td class="align-middle">13 Dec 2024</td>
+                <td class="align-middle">
+                  <span class="badge text-bg-warning">W realizacji</span>
+                </td>
+                <td class="align-middle">149.50 zł</td>
+                <td class="align-middle">
+                  <button type="button" class="btn btn-outline-primary mb-2 mb-md-0">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                  <button type="button" class="btn btn-outline-danger">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <th class="align-middle">#ORD-7890</th>
+                <td class="align-middle">Alex Nemets</td>
+                <td class="align-middle">12 Dec 2024</td>
+                <td class="align-middle">
+                  <span class="badge text-bg-danger">Anulowane</span>
+                </td>
+                <td class="align-middle">349.99 zł</td>
+                <td class="align-middle">
+                  <button type="button" class="btn btn-outline-primary mb-2 mb-md-0">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                  <button type="button" class="btn btn-outline-danger">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <th class="align-middle">#ORD-7889</th>
+                <td class="align-middle">Michał Hyla</td>
+                <td class="align-middle">10 Dec 2024</td>
+                <td class="align-middle">
+                  <span class="badge text-bg-info">Wysłane</span>
+                </td>
+                <td class="align-middle">150,000 zł</td>
+                <td class="align-middle">
+                  <button type="button" class="btn btn-outline-primary mb-2 mb-md-0">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                  <button type="button" class="btn btn-outline-danger">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <th class="align-middle">#ORD-7888</th>
+                <td class="align-middle">Denys Novikov</td>
+                <td class="align-middle">5 Dec 2024</td>
+                <td class="align-middle">
+                  <span class="badge text-bg-success">Zrealizowane</span>
+                </td>
+                <td class="align-middle">120.99 zł</td>
+                <td class="align-middle">
+                  <button type="button" class="btn btn-outline-primary mb-2 mb-md-0">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                  <button type="button" class="btn btn-outline-danger">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!--   Pagination   -->
+      <div>
+        <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+              <a class="page-link">Poprzednia</a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#">Następna</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </main>
+  </div>
+</div>
+
+<!-- Modal "Add Product" -->
+<div class="modal fade" id="addProduct" tabindex="-1" aria-labelledby="addProductLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addProductLabel">Dodaj nowy produkt</h5>
+        <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <form>
+              <div>
+                <label for="productName" class="form-label">Nazwa produktu</label>
+                <input type="text" class="form-control" id="productName">
+              </div>
+            </form>
+          </div>
+          <div class="col-md-6 mb-3">
+            <form>
+              <div>
+                <label for="category" class="form-label">Kategoria</label>
+                <select class="form-select" id="category">
+                  <option selected disabled value="">Wybierz kategorię...</option>
+                  <option value="1">Kategoria 1</option>
+                  <option value="2">Kategoria 2</option>
+                  <option value="3">Kategoria 3</option>
+                </select>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <form>
+              <div>
+                <label for="price" class="form-label">Cena (zł)</label>
+                <input type="number" class="form-control" id="price" min="1">
+              </div>
+            </form>
+          </div>
+          <div class="col-md-6 mb-3">
+            <form>
+              <div>
+                <label for="stockStatus" class="form-label">Stan magazynowy</label>
+                <input type="number" class="form-control" id="stockStatus" min="0">
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row">
+          <div class="mb-3">
+            <form>
+              <div>
+                <label for="description" class="form-label">Opis</label>
+                <textarea class="form-control" id="description" rows="3"></textarea>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row">
+          <form>
+            <div class="form-check form-switch mb-4">
+              <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+              <label class="form-check-label" for="flexSwitchCheckDefault">Wyróżniony produkt</label>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer float-end">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Anuluj</button>
+        <button type="button" class="btn btn-primary">Zapisz produkt</button>
+      </div>
+    </div>
   </div>
 </div>
 
