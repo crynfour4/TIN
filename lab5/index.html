@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Shop Admin</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    @media (max-width: 300px) {
+      .responsive-wrap {
+        justify-content: flex-start !important;
+        flex-wrap: wrap !important;
+        margin-top: 1rem !important;
+      }
+    }
+    @media (max-width: 482px) {
+      .responsive-wrap {
+        margin-top: 1rem !important;
+      }
+
+      body {
+        padding-top: 120px !important;
+      }
+    }
+
+    .nav-link-hover a:hover {
+      transition: all 0.3s ease-in-out 0s;
+      background-color: #31373d !important;
+    }
+
+    body {
+      padding-top: 56px;
+    }
+
+    @media (min-width: 768px) {
+      .sidebar-sticky {
+        position: sticky;
+        top: 56px;
+        height: calc(100vh - 56px);
+        overflow-y: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- Pasek nawigacyjny -->
+<nav class="navbar navbar-expand-lg bg-primary navbar-dark fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html">
+      <i class="bi bi-shop me-2"></i>E-Shop Admin
+    </a>
+    <div class="d-flex justify-content-end align-items-center gap-2 responsive-wrap">
+      <div class="input-group mx-2 d-none d-md-flex search-bar" style="max-width: 300px;">
+        <input type="search" class="form-control rounded-start" placeholder="Szukaj..." aria-label="Szukaj">
+        <span class="input-group-text bg-light border-start-0 rounded-end">
+          <i class="bi bi-search"></i>
+        </span>
+      </div>
+
+      <button type="button" class="btn btn-light d-md-none search-icon">
+        <i class="bi bi-search"></i>
+      </button>
+
+      <button type="button" class="btn btn-light position-relative mx-1">
+        <i class="bi bi-envelope"></i>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">4</span>
+      </button>
+
+      <button type="button" class="btn btn-light position-relative mx-1">
+        <i class="bi bi-bell"></i>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark">7</span>
+      </button>
+      <div class="btn-group mx-2">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-person-circle"></i>
+          Admin</button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="#">
+            <i class="bi bi-gear"></i>
+            Ustawienia</a></li>
+          <li><a class="dropdown-item" href="#">
+            <i class="bi bi-person"></i>
+            Profil</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#">
+            <i class="bi bi-box-arrow-right"></i>
+            Wyloguj</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <aside class="col-md-2 d-md-block bg-dark text-white nav-link-hover px-0 collapse" id="sidebarMenu">
+      <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item mt-2">
+            <a class="nav-link active text-white d-flex align-items-center" style="background-color: #31373d" href="#">
+              <i class="bi bi-speedometer2 me-2"></i>Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" style="color: #9aa0a5" href="#">
+              <i class="bi bi-box-seam me-2"></i>Produkty
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" style="color: #9aa0a5" href="#">
+              <i class="bi bi-cart me-2"></i>Zamówienia
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" style="color: #9aa0a5" href="#">
+              <i class="bi bi-people me-2"></i>Klienci
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" style="color: #9aa0a5" href="#">
+              <i class="bi bi-graph-up me-2"></i>Raporty
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" style="color: #9aa0a5" href="#">
+              <i class="bi bi-tags me-2"></i>Promocje
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" style="color: #9aa0a5" href="#">
+              <i class="bi bi-truck me-2"></i>Dostawy
+            </a>
+          </li>
+          <li class="nav-item mb-4">
+            <a class="nav-link d-flex align-items-center" style="color: #9aa0a5" href="#">
+              <i class="bi bi-chat-dots me-2"></i>Wiadomości
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" style="color: #9aa0a5" href="#">
+              <i class="bi bi-gear me-2"></i>Ustawienia
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" style="color: #9aa0a5" href="#">
+              <i class="bi bi-question-circle me-2"></i>Pomoc
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="col-md-10">
+      <div>
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 mt-2">
+          <h3>Panel Sterowania</h3>
+          <button type="button" class="btn btn-dark">Dodaj produkt</button>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <i class="bi bi-info-circle-fill me-2"></i>
+          Witaj w panelu administracyjnym! Masz <b>7 nowych zamówień</b> i <b>4 nieprzeczytane wiadomości</b>.
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  });
+</script>
+</body>
+</html>
