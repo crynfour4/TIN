@@ -25,8 +25,3 @@ class Person {
         console.log(`New city: ${this.city}`);
     }
 }
-
-// let Denys = new Person('Denys', 19, 'Kalanczak');
-// Denys.greet();
-// Denys.canVote();
-// Denys.changeCity('Gdansk');

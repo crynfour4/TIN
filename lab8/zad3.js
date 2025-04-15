@@ -9,12 +9,6 @@ class Library {
         console.log(`Added ${title} by ${author} to the library.`)
     }
 
-    // describe() {
-    //     this.books.forEach(book => {
-    //         console.log(`Title: ${book.title}, author: ${book.author}, availability: ${book.isAvailable}.`)
-    //     })
-    // }
-
     borrowBook(title) {
         const book = this.books.find(book => book.title === title);
 
