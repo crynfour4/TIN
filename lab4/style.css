@@ -1,0 +1,134 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  user-select: none;
+}
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 2rem;
+  position: sticky;
+  z-index: 10;
+  top: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background: #FFFFFF;
+}
+header .logo {
+  font-weight: bold;
+  font-size: 2rem;
+  color: #3598db;
+}
+header .logo span {
+  color: #33CD73;
+}
+header .links ul {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  gap: 2rem;
+  padding-top: 0.5rem;
+}
+header .links ul li {
+  gap: 2rem;
+}
+header .links ul a {
+  text-decoration: none;
+  color: #343A40;
+  position: relative;
+}
+header .links ul a:after {
+  content: "";
+  position: absolute;
+  height: 3px;
+  left: 0;
+  bottom: -5px;
+  width: 0;
+  background: #E74B3C;
+  transition: width 0.3s ease;
+}
+header .links ul a:hover:after {
+  width: 100%;
+}
+
+body button {
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background: #E74B3C;
+  color: #FFFFFF;
+  font-weight: bold;
+  padding: 1rem;
+  font-size: 1rem;
+  transition: transform 0.3s;
+}
+body button:hover {
+  transform: translateY(-5px);
+}
+
+.banner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem;
+  background: linear-gradient(to right, #3598db, #33CD73);
+  color: #FFFFFF;
+}
+.banner h1 {
+  margin: 1rem 0 1rem 0;
+}
+.banner p {
+  line-height: 1.5rem;
+}
+.banner button {
+  margin-top: 2rem;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  color: #343A40;
+  margin: 3rem 2rem 1rem 2rem;
+}
+.cards .opis {
+  grid-column: 1/span 3;
+  text-align: center;
+  margin-bottom: 1rem;
+  line-height: 2rem;
+}
+.cards .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.cards .card span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: #FFFFFF;
+  margin: 1rem;
+}
+
+.card.level-1 span {
+  background: #3598db;
+}
+
+.card.level-2 span {
+  background: #33CD73;
+}
+
+.card.level-3 span {
+  background: #E74B3C;
+}
+
+/*# sourceMappingURL=style.css.map */
