@@ -1,0 +1,182 @@
+@use "sass:map";
+@use "sass:math";
+@use "sass:list";
+
+$colors: (
+        primary: #3598db,
+        secondary: #33CD73,
+        button: #E74B3C,
+        dark: #343A40,
+        light: #FFFFFF,
+);
+
+@function color($key) {
+  @return map.get($colors, $key);
+}
+
+$font-sizes: (s: 0.5rem, m: 1rem, l: 2rem);
+$spacings: (s: 0.5rem, m: 1rem, l: 2rem, xl: 3rem);
+$shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+$radius: 5px;
+$breakpoints: (sm: 576px, md: 768px, lg: 992px);
+$gradient: linear-gradient(to right, color(primary), color(secondary));
+$transition: 0.3s;
+
+@function spacing($key) {
+  @return map.get($spacings, $key);
+}
+
+@function fontSize($key) {
+  @return map.get($font-sizes, $key);
+}
+
+@mixin flex($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin hover-effect($property, $value) {
+  transition: $property $transition;
+  &:hover { #{$property}: $value; }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  user-select: none;
+
+  button {
+    @extend %button-style;
+  }
+}
+
+header {
+  @include flex(row);
+  justify-content: space-between;
+  padding: spacing(l);
+  position: sticky;
+  z-index: 10;
+  top: 0;
+  box-shadow: $shadow;
+  background: color(light);
+
+  .logo {
+    font-weight: bold;
+    font-size: fontSize(l);
+    color: color(primary);
+    span {
+      color: color(secondary);
+    };
+  }
+
+  .links ul {
+    @include flex(row);
+    list-style: none;
+    gap: spacing(l);
+    padding-top: spacing(s);
+
+    li {
+      gap: spacing(l);
+    }
+
+    a {
+      text-decoration: none;
+      color: color(dark);
+      position: relative;
+
+      &:after {
+        content: "";
+        position: absolute;
+        height: 3px;
+        left: 0;
+        bottom: -5px;
+        width: 0;
+        background: color(button);
+        transition: width 0.3s ease;
+      }
+
+      &:hover:after {
+        width: 100%;
+      }
+    }
+  }
+}
+
+%button-style {
+  cursor: pointer;
+  border: none;
+  border-radius: $radius;
+  background: color(button);
+  color: color(light);
+  font-weight: bold;
+  padding: spacing(m);
+  font-size: fontSize(m);
+  @include hover-effect(transform, translateY(-5px));
+}
+
+.banner {
+  @include flex(column);
+  justify-content: center;
+  align-items: center;
+  padding: spacing(l) * 2.5;
+  background: $gradient;
+  color: color(light);
+
+  h1 {
+    margin: spacing(m) 0 spacing(m) 0;
+  }
+
+  p {
+    line-height: spacing(s) * 3;
+  }
+
+  button {
+    margin-top: spacing(l);
+  }
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  color: color(dark);
+  margin: spacing(xl) spacing(l) spacing(m) spacing(l);
+
+  .opis {
+    grid-column: 1 / span 3;
+    text-align: center;
+    margin-bottom: spacing(m);
+    line-height: spacing(l);
+  }
+
+  .card {
+    @include flex(column);
+    justify-content: center;
+    align-items: center;
+
+    span {
+      @include flex-center;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      color: color(light);
+      margin: spacing(m);
+    }
+  }
+}
+
+@for $i from 1 through 3 {
+  .card.level-#{$i} span {
+    background: list.nth((color(primary), color(secondary), color(button)), $i);
+  }
+}
