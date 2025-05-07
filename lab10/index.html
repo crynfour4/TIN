@@ -57,7 +57,8 @@
       rezyser: "Jake Schreier",
       rok: 2025,
       gatunek: "Superhero",
-      ocena: 7.7
+      ocena: 7.7,
+      image: "./thunderbolts.jpg"
     }
   ];
 
@@ -120,6 +121,20 @@
       genres.forEach(gatunek => {
         const button = createElement('button', ['text-sm', 'py-2', 'px-3', 'rounded-md', 'text-black', 'bg-gray-300', 'hover:text-white', 'hover:bg-red-500', 'transition', 'duration-200'], gatunek);
 
+        button.addEventListener('click', () => {
+          let filtered;
+
+          if (gatunek === 'Wszystkie') {
+            filtered = films;
+          } else {
+            filtered = films.filter(film => film.gatunek === gatunek);
+          }
+
+          const newFilmsSection = createFilms(filtered);
+          appContainer.replaceChild(newFilmsSection, filmsSection);
+          filmsSection = newFilmsSection;
+        });
+
         genresRow.appendChild(button);
       });
 
@@ -150,7 +165,7 @@
 
       filterContainer.appendChild(searchBar);
 
-      return { filterContainer, searchBar , year, rating };
+      return { filterContainer, searchBar , year, rating, genres };
     }
 
     // --- Films ---
@@ -219,7 +234,7 @@
     appContainer.appendChild(header);
 
     let currentSearchTerm = '';
-    const { filterContainer, searchBar, year, rating } = createFilterSection();
+    const { filterContainer, searchBar, year, rating, genres } = createFilterSection();
     appContainer.appendChild(filterContainer);
 
     let filmsSection = createFilms();
