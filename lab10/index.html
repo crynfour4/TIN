@@ -13,6 +13,14 @@
   // --- Data ---
   const films = [
     {
+      tytul: "What We Do in the Shadows",
+      rezyser: "Taika Waititi",
+      rok: 2014,
+      gatunek: "Comedy",
+      ocena: 7.6,
+      image: "./wwdits.jpg"
+    },
+    {
       tytul: "Drive",
       rezyser: "Nicolas Winding Refn",
       rok: 2011,
@@ -21,12 +29,12 @@
       image: "./drive.jpg"
     },
     {
-      tytul: "What We Do in the Shadows",
-      rezyser: "Taika Waititi",
-      rok: 2014,
-      gatunek: "Comedy",
-      ocena: 7.6,
-      image: "./wwdits.jpg"
+      tytul: "Only Lovers Left Alive",
+      rezyser: "Jim Jarmusch",
+      rok: 2013,
+      gatunek: "Dark Fantasy",
+      ocena: 7.2,
+      image: "./only-lovers-left-alive.jpg"
     },
     {
       tytul: "Fight Club",
@@ -45,12 +53,11 @@
       image: "./john-wick.jpg"
     },
     {
-      tytul: "Only Lovers Left Alive",
-      rezyser: "Jim Jarmusch",
-      rok: 2013,
-      gatunek: "Dark Fantasy",
-      ocena: 7.2,
-      image: "./only-lovers-left-alive.jpg"
+      tytul: "Thunderbolts",
+      rezyser: "Jake Schreier",
+      rok: 2025,
+      gatunek: "Superhero",
+      ocena: 7.7
     }
   ];
 
@@ -125,6 +132,7 @@
       const sortingRow = createElement('div', ['flex', 'flex-row', 'gap-2', 'flex-wrap']);
 
       const rating = createElement('button', ['text-sm', 'py-2', 'px-3', 'rounded-md', 'text-black', 'bg-gray-300', 'hover:text-white', 'hover:bg-red-500', 'transition', 'duration-200'], 'Oceny (najlepsze)');
+
       const year = createElement('button', ['text-sm', 'py-2', 'px-3', 'rounded-md', 'text-black', 'bg-gray-300', 'hover:text-white', 'hover:bg-red-500', 'transition', 'duration-200'], 'Roku (najnowsze)');
 
       sortingRow.appendChild(rating);
@@ -142,16 +150,14 @@
 
       filterContainer.appendChild(searchBar);
 
-      return { filterContainer, searchBar };
+      return { filterContainer, searchBar , year, rating };
     }
 
     // --- Films ---
     function createFilms(filteredFilms = films) {
       const filmsContainer = createElement('div', ['grid', 'grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-3', 'gap-4']);
 
-      const sortedFilms = filteredFilms.sort((a, b) => b.ocena - a.ocena);
-
-      sortedFilms.forEach((film) => {
+      filteredFilms.forEach((film) => {
         const filmContainer = createElement('div', ['shadow-md', 'rounded-md', 'bg-white', 'hover:-translate-y-1', 'transition-transform', 'duration-300']);
 
         const titleContainer = createElement('div', []);
@@ -213,7 +219,7 @@
     appContainer.appendChild(header);
 
     let currentSearchTerm = '';
-    const { filterContainer, searchBar } = createFilterSection();
+    const { filterContainer, searchBar, year, rating } = createFilterSection();
     appContainer.appendChild(filterContainer);
 
     let filmsSection = createFilms();
@@ -221,6 +227,24 @@
 
     const footer = createFooter();
     appContainer.appendChild(footer);
+
+    // --- Sorting by rating Event Listener ---
+    rating.addEventListener('click', () => {
+      const filteredRating = films.sort((a, b) => b.ocena - a.ocena);
+
+      const newFilmsSection = createFilms(filteredRating);
+      appContainer.replaceChild(newFilmsSection, filmsSection);
+      filmsSection = newFilmsSection;
+    });
+
+    // --- Sorting by year Event Listener ---
+    year.addEventListener('click', () => {
+      const filteredRating = films.sort((a, b) => b.rok - a.rok);
+
+      const newFilmsSection = createFilms(filteredRating);
+      appContainer.replaceChild(newFilmsSection, filmsSection);
+      filmsSection = newFilmsSection;
+    });
 
     // --- Search Bar Event Listener ---
     searchBar.addEventListener('input', (e) => {
