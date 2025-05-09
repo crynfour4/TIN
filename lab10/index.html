@@ -170,9 +170,13 @@
 
     // --- Films ---
     function createFilms(filteredFilms = films) {
+      const mainContainer = createElement('div', ['flex', 'flex-col']);
+      const countDisplayedFimls = createElement('p', ['text-gray-500', 'font-semibold', 'p-2']);
+      countDisplayedFimls.innerHTML = `Wyświetlanie ${filteredFilms.length} z ${films.length} filmów`;
+      mainContainer.appendChild(countDisplayedFimls);
       const filmsContainer = createElement('div', ['grid', 'grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-3', 'gap-4']);
 
-      filteredFilms.forEach((film) => {
+      filteredFilms.forEach((film, index) => {
         const filmContainer = createElement('div', ['shadow-md', 'rounded-md', 'bg-white', 'hover:-translate-y-1', 'transition-transform', 'duration-300']);
 
         const titleContainer = createElement('div', []);
@@ -215,9 +219,16 @@
         filmContainer.appendChild(detailsContainer);
 
         filmsContainer.appendChild(filmContainer);
+        mainContainer.appendChild(filmsContainer);
+
+        filmContainer.addEventListener('click', () => {
+          const modalContainer = createModal(film);
+          appContainer.appendChild(modalContainer);
+          modalContainer.classList.remove('hidden');
+        });
       });
 
-      return filmsContainer;
+      return mainContainer;
     }
 
     // --- Footer ---
@@ -227,6 +238,37 @@
       footer.innerHTML = `&copy; ${new Date().getFullYear()} Biblioteka Filmowa | Stworzone z użyciem JavaScript i Tailwind CSS`;
 
       return footer;
+    }
+
+    // --- Modal ---
+    function createModal(film) {
+      const modalContainer = createElement('div', ['fixed', 'top-0', 'left-0', 'right-0', 'bottom-0', 'flex', 'justify-center', 'items-center', 'bg-gray-900', 'bg-opacity-50', 'z-50']);
+
+      const modal = createElement('div', ['bg-white', 'p-4', 'rounded-md', 'w-1/3']);
+      const modalTitle = createElement('p', ['text-gray-800', 'p-1', 'font-bold'], 'Szczegóły filmu: ');
+      modal.appendChild(modalTitle);
+      const filmTitle = createElement('p', ['text-gray-800', 'p-1'], `Tytuł: ${film.tytul}`);
+      modal.appendChild(filmTitle);
+      const filmDirector = createElement('p', ['text-gray-800', 'p-1'], `Reżyser: ${film.rezyser}`);
+      modal.appendChild(filmDirector);
+      const filmYear = createElement('p', ['text-gray-800', 'p-1'], `Rok: ${film.rok}`);
+      modal.appendChild(filmYear);
+      const filmGenre = createElement('p', ['text-gray-800', 'p-1'], `Gatunek: ${film.gatunek}`);
+      modal.appendChild(filmGenre);
+      const filmRating = createElement('p', ['text-gray-800', 'p-1'], `Ocena: ${film.ocena}`);
+      modal.appendChild(filmRating);
+
+      const closeButton = createElement('button', ['text-white', 'bg-red-500', 'px-4', 'py-2', 'rounded', 'mt-3'], 'Zamknij');
+      closeButton.addEventListener('click', () => {
+        modalContainer.classList.add('hidden');
+      });
+
+      modal.appendChild(closeButton);
+
+      modalContainer.appendChild(modal);
+      document.body.appendChild(modalContainer);
+
+      return modalContainer;
     }
 
     // --- Build Page ---
@@ -274,6 +316,44 @@
       appContainer.replaceChild(newFilmsSection, filmsSection);
       filmsSection = newFilmsSection;
     });
+
+    // --- Key navigation logic
+
+    let selectedIndex = -1;
+
+    document.addEventListener('keydown', (event) => {
+      const cards = document.querySelectorAll('#films-library .grid > div');
+      if (cards.length === 0) {
+        return;
+      }
+
+      cards.forEach((card) => {
+        card.classList.remove('border-2', 'border-red-500');
+      });
+
+      const cols = 3;
+      const total = cards.length;
+
+      if (selectedIndex === -1) {
+        selectedIndex = 0;
+      } else {
+        if (event.key === 'ArrowLeft' && selectedIndex > 0) {
+          selectedIndex--;
+        } else if (event.key === 'ArrowRight' && selectedIndex < total - 1) {
+          selectedIndex++;
+        } else if (event.key === 'ArrowUp' && selectedIndex - cols >= 0) {
+          selectedIndex -= cols;
+        } else if (event.key === 'ArrowDown' && selectedIndex + cols < total) {
+          selectedIndex += cols;
+        } else if (event.key === 'Enter') {
+          const selectedFilm = films[selectedIndex];
+          createModal(selectedFilm);
+        }
+      }
+
+      cards[selectedIndex].classList.add('border-2', 'border-red-500');
+    });
+
 
   });// Koniec 'DOMContentLoaded'
 </script>
