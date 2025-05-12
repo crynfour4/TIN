@@ -106,6 +106,10 @@
     }
 
     // --- 2. Filtrowanie, sortowanie i wyszukiwanie ---
+
+    let activeGenreButton = null;
+    let wszystkieButton = null;
+
     function createFilterSection() {
       const filterContainer = createElement('div', ['flex', 'flex-col', 'mb-5', 'px-3', 'py-3', 'bg-white', 'rounded-md', 'shadow-md']);
 
@@ -121,7 +125,20 @@
       genres.forEach(gatunek => {
         const button = createElement('button', ['text-sm', 'py-2', 'px-3', 'rounded-md', 'text-black', 'bg-gray-300', 'hover:text-white', 'hover:bg-red-500', 'transition', 'duration-200'], gatunek);
 
+        if (gatunek === 'Wszystkie') {
+          wszystkieButton = button;
+        }
+
         button.addEventListener('click', () => {
+          if (activeGenreButton) {
+            activeGenreButton.classList.remove('text-white', 'bg-red-500');
+            activeGenreButton.classList.add('text-black', 'bg-gray-300', 'hover:text-white', 'hover:bg-red-500');
+          }
+
+          activeGenreButton = button;
+          button.classList.remove('text-black', 'bg-gray-300', 'hover:text-white', 'hover:bg-red-500');
+          button.classList.add('text-white', 'bg-red-500');
+
           let filtered;
 
           if (gatunek === 'Wszystkie') {
@@ -137,6 +154,10 @@
 
         genresRow.appendChild(button);
       });
+
+      if (wszystkieButton) {
+        wszystkieButton.click();
+      }
 
       filterContainer.appendChild(genresRow);
 
@@ -176,7 +197,7 @@
       mainContainer.appendChild(countDisplayedFimls);
       const filmsContainer = createElement('div', ['grid', 'grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-3', 'gap-4']);
 
-      filteredFilms.forEach((film, index) => {
+      filteredFilms.forEach((film) => {
         const filmContainer = createElement('div', ['shadow-md', 'rounded-md', 'bg-white', 'hover:-translate-y-1', 'transition-transform', 'duration-300']);
 
         const titleContainer = createElement('div', []);
@@ -276,7 +297,7 @@
     appContainer.appendChild(header);
 
     let currentSearchTerm = '';
-    const { filterContainer, searchBar, year, rating, genres } = createFilterSection();
+    const { filterContainer, searchBar, year, rating} = createFilterSection();
     appContainer.appendChild(filterContainer);
 
     let filmsSection = createFilms();
@@ -286,8 +307,26 @@
     appContainer.appendChild(footer);
 
     // --- Sorting by rating Event Listener ---
+
+    let activeSortingButton = null;
+
     rating.addEventListener('click', () => {
       const filteredRating = films.sort((a, b) => b.ocena - a.ocena);
+
+      if (activeGenreButton) {
+        activeGenreButton.classList.remove('text-white', 'bg-red-500');
+        activeGenreButton.classList.add('text-black', 'bg-gray-300', 'hover:text-white', 'hover:bg-red-500');
+        activeGenreButton = null;
+      }
+
+      if (activeSortingButton) {
+        activeSortingButton.classList.remove('text-white', 'bg-red-500');
+        activeSortingButton.classList.add('text-black', 'bg-gray-300', 'hover:text-white', 'hover:bg-red-500');
+      }
+
+      activeSortingButton = rating;
+      rating.classList.remove('text-black', 'bg-gray-300', 'hover:text-white', 'hover:bg-red-500');
+      rating.classList.add('text-white', 'bg-red-500');
 
       const newFilmsSection = createFilms(filteredRating);
       appContainer.replaceChild(newFilmsSection, filmsSection);
@@ -297,6 +336,21 @@
     // --- Sorting by year Event Listener ---
     year.addEventListener('click', () => {
       const filteredRating = films.sort((a, b) => b.rok - a.rok);
+
+      if (activeGenreButton) {
+        activeGenreButton.classList.remove('text-white', 'bg-red-500');
+        activeGenreButton.classList.add('text-black', 'bg-gray-300', 'hover:text-white', 'hover:bg-red-500');
+        activeGenreButton = null;
+      }
+
+      if (activeSortingButton) {
+        activeSortingButton.classList.remove('text-white', 'bg-red-500');
+        activeSortingButton.classList.add('text-black', 'bg-gray-300', 'hover:text-white', 'hover:bg-red-500');
+      }
+
+      activeSortingButton = year;
+      year.classList.remove('text-black', 'bg-gray-300', 'hover:text-white', 'hover:bg-red-500');
+      year.classList.add('text-white', 'bg-red-500');
 
       const newFilmsSection = createFilms(filteredRating);
       appContainer.replaceChild(newFilmsSection, filmsSection);
