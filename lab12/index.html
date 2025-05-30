@@ -69,14 +69,16 @@
     let visibleAgents = [];
     let allAgents = [];
 
-    const agents = JSON.parse(localStorage.getItem("valorantAgents"));
+    const agents = JSON.parse(localStorage.getItem("valorantAgents")) || [];
 
-    agents.forEach((agent, index) => {
-      if (fixedReleaseDates[agent.uuid]) {
-        agent.releaseDate = new Date(fixedReleaseDates[agent.uuid].split('-').reverse().join('-'));
-      }
-      agent.id = agent[index] + 1;
-    });
+    if (agents.length > 0) {
+      agents.forEach((agent, index) => {
+        if (fixedReleaseDates[agent.uuid]) {
+          agent.releaseDate = new Date(fixedReleaseDates[agent.uuid].split('-').reverse().join('-'));
+        }
+        agent.id = index + 1;
+      });
+    }
 
     allAgents = agents;
     //visibleAgents = agents;
@@ -515,10 +517,10 @@
     appContainer.appendChild(header);
 
     let currentSearchTerm = '';
-    const { mainContainer, searchBar } = createFilteringSection(agents);
+    let { mainContainer, searchBar } = createFilteringSection(agents);
     appContainer.appendChild(mainContainer);
 
-    let currentAgentsSection = createAgentsSection(agents);
+    let currentAgentsSection = createAgentsSection([]);  // Initialize with empty array
     appContainer.appendChild(currentAgentsSection);
 
     let paginationSection = createPaginationSection();
@@ -623,20 +625,28 @@
     }
 
     async function getAllAgents() {
-      const allAgentsButton = document.getElementById('getAllAgentsButton');
-      allAgentsButton.textContent = "Loading...";
+      const allAgentsButton = document.getElementById('allAgentsButton');
+      if (allAgentsButton) {
+        allAgentsButton.textContent = "Loading...";
+      }
 
       try {
         const response = await simulatedGet("api/agents");
         createResponseMessage(response);
 
-        // Reset to show all agents
+        allAgents = agents;
         visibleAgents = allAgents;
         const newAgentsSection = createAgentsSection(allAgents);
         appContainer.replaceChild(newAgentsSection, currentAgentsSection);
         currentAgentsSection = newAgentsSection;
         currentPage = 1;
         changePage(currentPage);
+
+        // Refresh the filtering section to update role filters
+        const newFilteringSection = createFilteringSection(allAgents);
+        appContainer.replaceChild(newFilteringSection.mainContainer, mainContainer);
+        mainContainer = newFilteringSection.mainContainer;
+        searchBar = newFilteringSection.searchBar;
 
       } catch (error) {
         console.error('Error fetching agents:', error);
