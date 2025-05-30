@@ -9,7 +9,7 @@
 <div id="agents-library" class="container mx-auto"></div>
 
 <script>
-  async function getAllAgents() {
+  async function getAllAgentsOld() {
     const localData = localStorage.getItem("valorantAgents");
 
     if (localData) {
@@ -67,16 +67,19 @@
     if (!appContainer) return;
 
     let visibleAgents = [];
+    let allAgents = [];
 
     const agents = JSON.parse(localStorage.getItem("valorantAgents"));
 
-    visibleAgents = agents;
-
-    agents.forEach(agent => {
+    agents.forEach((agent, index) => {
       if (fixedReleaseDates[agent.uuid]) {
         agent.releaseDate = new Date(fixedReleaseDates[agent.uuid].split('-').reverse().join('-'));
       }
+      agent.id = agent[index] + 1;
     });
+
+    allAgents = agents;
+    //visibleAgents = agents;
 
     function createElement(tag, classNames = [], attributes = {}) {
       const element = document.createElement(tag);
@@ -133,7 +136,7 @@
 
         const likedAgentIds = getLikedAgents();
 
-        const likedAgents = agents.filter(agent => likedAgentIds.includes(agent.uuid));
+        const likedAgents = allAgents.filter(agent => likedAgentIds.includes(agent.uuid));
 
         visibleAgents = likedAgents;
 
@@ -158,10 +161,11 @@
       const releaseDateButton = createElement('button', ['rounded-md', 'text-white', 'bg-rose-500', 'w-44', 'py-1', 'px-3', 'm-2', 'ml-9', 'hover:text-white', 'hover:bg-rose-500', 'transition', 'duration-200'], 'Sort by release date');
 
       releaseDateButton.addEventListener('click', () => {
-        const sortedByDateAgents = visibleAgents.sort((a, b) => {
+        const sortedByDateAgents = [...visibleAgents].sort((a, b) => {
           return b.releaseDate - a.releaseDate;
         });
 
+        visibleAgents = sortedByDateAgents;
         const sortedByDateSection = createAgentsSection(sortedByDateAgents);
         appContainer.replaceChild(sortedByDateSection, currentAgentsSection);
         currentAgentsSection = sortedByDateSection;
@@ -175,10 +179,11 @@
       const displayNameButton = createElement('button', ['rounded-md', 'text-white', 'bg-rose-500', 'w-44', 'py-1', 'px-3', 'm-2', 'ml-9', 'hover:text-white', 'hover:bg-rose-500', 'transition', 'duration-200'], 'Sort by name');
 
       displayNameButton.addEventListener('click', () => {
-        const sortedByNameAgents = visibleAgents.sort((a, b) => {
+        const sortedByNameAgents = [...visibleAgents].sort((a, b) => {
           return a.displayName.localeCompare(b.displayName);
         });
 
+        visibleAgents = sortedByNameAgents;
         const displayNameSection = createAgentsSection(sortedByNameAgents);
         appContainer.replaceChild(displayNameSection, currentAgentsSection);
         currentAgentsSection = displayNameSection;
@@ -219,7 +224,7 @@
         const button = createElement('button', ['rounded-md', 'text-white', 'bg-rose-500', 'w-44', 'py-1', 'px-3', 'mb-2', 'ml-2', 'mr-2', 'hover:text-white', 'hover:bg-rose-500', 'transition', 'duration-200'], role.displayName);
 
         button.addEventListener('click', () => {
-          const filteredAgents = agents.filter(agent => agent.role?.uuid === role.uuid);
+          const filteredAgents = allAgents.filter(agent => agent.role?.uuid === role.uuid);
           visibleAgents = filteredAgents;
           const newSection = createAgentsSection(filteredAgents);
           appContainer.replaceChild(newSection, currentAgentsSection);
@@ -234,15 +239,9 @@
       rightContainer.appendChild(topContainer);
       rightContainer.appendChild(bottomContainer);
 
-      const allAgents = createElement('button', ['rounded-md', 'bg-rose-500', 'text-white', 'py-1', 'px-3', 'ml-9', 'w-[25rem]'], 'All agents');
-
-      allAgents.addEventListener('click', () => {
-        visibleAgents = agents;
-        const allAgentsSection = createAgentsSection(agents);
-        appContainer.replaceChild(allAgentsSection, currentAgentsSection);
-        currentAgentsSection = allAgentsSection;
-        changePage(currentPage);
-      });
+      const allAgents = createElement('button', ['rounded-md', 'bg-rose-500', 'text-white', 'py-1', 'px-3', 'ml-9', 'w-[25rem]'], 'All agents (GET)');
+      allAgents.id = "allAgentsButton";
+      allAgents.addEventListener('click', getAllAgents);
 
       rightContainer.appendChild(allAgents);
 
@@ -487,6 +486,31 @@
       return modalContainer;
     }
 
+    function createResponseMessage(response) {
+      const messageContainer = createElement('div', ['fixed', 'top-4', 'right-4', 'z-50', 'shadow-lg']);
+
+      const message = createElement('div', ['bg-white', 'border', 'border-gray-300', 'p-4', 'rounded-md', 'shadow-md', 'max-w-sm']);
+
+      const status = createElement('p', ['text-gray-700', 'mb-2']);
+      status.innerHTML = `<strong>Status</strong>: ${response.status}`;
+
+      const messageBody = createElement('p', ['text-gray-700', 'mb-1']);
+      messageBody.innerHTML = `<strong>Message: </strong>: ${response.status === 200 ? 'Successfully loaded!' : 'Request failed'}`;
+
+      message.appendChild(status);
+      message.appendChild(messageBody);
+      messageContainer.appendChild(message);
+      document.body.appendChild(messageContainer);
+
+      setTimeout(() => {
+        if (messageContainer.parentNode) {
+          messageContainer.remove();
+        }
+      }, 5000);
+
+      return messageContainer;
+    }
+
     const header = createHeader();
     appContainer.appendChild(header);
 
@@ -558,6 +582,72 @@
 
       cards[selectedIndex].classList.add('border-2', 'border-rose-500');
     });
+
+    // --- REST API Simulation ---
+
+    // --- GET Methods ---
+    function simulatedGet(path) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          if (path === "api/agents"){
+            resolve({
+                      status: 200,
+                      body: allAgents
+                    });
+          } else if (path.startsWith("api/agents/")) {
+            const id = parseInt(path.split("/")[3]);
+            const agent = allAgents.find(u => u.id === id);
+            if (agent) {
+              resolve ({
+                status: 200,
+                body: agent
+              });
+            } else {
+              resolve ({
+                status: 404,
+                body: {
+                  error: "Agent not found"
+                }
+              });
+            }
+          } else {
+            resolve ({
+              status: 400,
+              body: {
+                error: "Invalid path"
+              }
+            });
+          }
+        }, 500);
+      });
+    }
+
+    async function getAllAgents() {
+      const allAgentsButton = document.getElementById('getAllAgentsButton');
+      allAgentsButton.textContent = "Loading...";
+
+      try {
+        const response = await simulatedGet("api/agents");
+        createResponseMessage(response);
+
+        // Reset to show all agents
+        visibleAgents = allAgents;
+        const newAgentsSection = createAgentsSection(allAgents);
+        appContainer.replaceChild(newAgentsSection, currentAgentsSection);
+        currentAgentsSection = newAgentsSection;
+        currentPage = 1;
+        changePage(currentPage);
+
+      } catch (error) {
+        console.error('Error fetching agents:', error);
+        createResponseMessage({ status: 500, body: 'Error occurred' });
+      } finally {
+        if (allAgentsButton) {
+          allAgentsButton.textContent = "All agents (GET)";
+        }
+      }
+    }
+
   });
 </script>
 </body>
